@@ -25,11 +25,6 @@ def predict_image():
     result = MODEL.predict(image)
     return {"outputs": result.as_dict() }
 
-@app.route("/test", methods=["GET"])
-def run_model():
-    result = MODEL.predict_from_file(os.path.join(ASSETS_PATH, "apple.png"))
-    return {"outputs": result.as_dict() }
-
 def _process_base64(json_data):
     image_data = json_data.get("inputs").get("Image")
     image_data = re.sub(r"^data:image/.+;base64,", "", image_data)
