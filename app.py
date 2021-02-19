@@ -1,4 +1,4 @@
-from lobe import ImageModel
+from tf_example import Model
 
 import os
 import io
@@ -11,24 +11,24 @@ app = Flask(__name__)
 
 # Path to signature.json and model file
 ASSETS_PATH = os.path.join(".", "./assets")
-MODEL = ImageModel.load(ASSETS_PATH)
+MODEL = Model(ASSETS_PATH)
+MODEL.load()
 
-
-@app.errorhandler(404)
-def page_not_found(error):
-    return 'not found', 404
 
 @app.route('/predict', methods=["POST"])
 def predict_image():
     req = request.get_json(force=True)
     image = _process_base64(req)
     result = MODEL.predict(image)
-    return {"outputs": result.as_dict() }
+    return {"outputs": result }
 
 @app.route("/test", methods=["GET"])
 def run_model():
-    result = MODEL.predict_from_file(os.path.join(ASSETS_PATH, "apple.png"))
-    return {"outputs": result.as_dict() }
+    image = Image.open(os.path.join(ASSETS_PATH, "apple.png"))
+    if image.mode != "RGB":
+        image = image.convert("RGB")
+    result = MODEL.predict(image)
+    return {"outputs": result }
 
 def _process_base64(json_data):
     image_data = json_data.get("inputs").get("Image")
