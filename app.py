@@ -22,14 +22,6 @@ def predict_image():
     result = MODEL.predict(image)
     return {"outputs": result }
 
-@app.route("/test", methods=["GET"])
-def run_model():
-    image = Image.open(os.path.join(ASSETS_PATH, "apple.png"))
-    if image.mode != "RGB":
-        image = image.convert("RGB")
-    result = MODEL.predict(image)
-    return {"outputs": result }
-
 def _process_base64(json_data):
     image_data = json_data.get("inputs").get("Image")
     image_data = re.sub(r"^data:image/.+;base64,", "", image_data)
