@@ -40,9 +40,7 @@ Currently covered is deploying to Azure Web Service and running locally
 }
 ```
 
-
-
-## Azure Web Service
+## Azure App Service
 
 * There is an [existing quick start](https://docs.microsoft.com/en-us/azure/app-service/quickstart-python?toc=%2Fpython%2Fazure%2FTOC.json&tabs=bash&pivots=python-framework-flask) that is up to date and helpful
   * Assumes Azure subscription and Python version >= 3.6
@@ -51,4 +49,3 @@ Currently covered is deploying to Azure Web Service and running locally
     2. az login
     3. az webapp up --sku B1 --name app-name
   * Includes instructions for running locally
-
