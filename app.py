@@ -1,4 +1,4 @@
-from assets.example.tf_example import Model
+from model import Model
 
 import os
 import io
@@ -19,7 +19,6 @@ MODEL.load()
 def predict_image():
     req = request.get_json(force=True)
     image = _process_base64(req)
-    image.save("img.jpg")
     result = MODEL.predict(image)
     return {"outputs": result }
 
