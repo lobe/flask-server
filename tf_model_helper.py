@@ -4,18 +4,14 @@
 """
 Skeleton code showing how to load and run the TensorFlow SavedModel export package from Lobe.
 """
-# import argparse
 import os
 import json
 import tensorflow as tf
 from PIL import Image
 import numpy as np
 
-MODEL_DIR = os.path.join(os.path.dirname(__file__), "..")  # default assume that our export is in this file's parent directory
-
-
-class TFModelHelper(object):
-    def __init__(self, model_dir=MODEL_DIR):
+class TFModel(object):
+    def __init__(self, model_dir):
         # make sure our exported SavedModel folder exists
         model_path = os.path.realpath(model_dir)
         if not os.path.exists(model_path):

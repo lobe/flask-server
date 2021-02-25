@@ -1,9 +1,13 @@
-from tf_model_util import TFModelHelper
-
+#  -------------------------------------------------------------
+#   Copyright (c) Microsoft Corporation.  All rights reserved.
+#  -------------------------------------------------------------
 import os
 import io
 import re
 import base64
+
+from tf_model_helper import TFModel
+
 from PIL import Image
 from flask import Flask, request
 
@@ -11,7 +15,7 @@ app = Flask(__name__)
 
 # Path to signature.json and model file
 ASSETS_PATH = os.path.join(".", "./model")
-TF_MODEL = TFModelHelper(ASSETS_PATH)
+TF_MODEL = TFModel(ASSETS_PATH)
 TF_MODEL.load()
 
 
