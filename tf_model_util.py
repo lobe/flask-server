@@ -4,7 +4,7 @@
 """
 Skeleton code showing how to load and run the TensorFlow SavedModel export package from Lobe.
 """
-import argparse
+# import argparse
 import os
 import json
 import tensorflow as tf
@@ -14,7 +14,7 @@ import numpy as np
 MODEL_DIR = os.path.join(os.path.dirname(__file__), "..")  # default assume that our export is in this file's parent directory
 
 
-class Model(object):
+class TFModelHelper(object):
     def __init__(self, model_dir=MODEL_DIR):
         # make sure our exported SavedModel folder exists
         model_path = os.path.realpath(model_dir)
@@ -95,19 +95,3 @@ class Model(object):
     def __del__(self):
         self.cleanup()
 
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Predict a label for an image.")
-    parser.add_argument("image", help="Path to your image file.")
-    args = parser.parse_args()
-    if os.path.isfile(args.image):
-        image = Image.open(args.image)
-        # convert to rgb image if this isn't one
-        if image.mode != "RGB":
-            image = image.convert("RGB")
-        model = Model()
-        model.load()
-        outputs = model.predict(image)
-        print(f"Predicted: {outputs}")
-    else:
-        print(f"Couldn't find image file {args.image}")

@@ -1,4 +1,4 @@
-from model import Model
+from tf_model_util import TFModelHelper
 
 import os
 import io
@@ -10,16 +10,16 @@ from flask import Flask, request
 app = Flask(__name__)
 
 # Path to signature.json and model file
-ASSETS_PATH = os.path.join(".", "./assets")
-MODEL = Model(ASSETS_PATH)
-MODEL.load()
+ASSETS_PATH = os.path.join(".", "./model")
+TF_MODEL = TFModelHelper(ASSETS_PATH)
+TF_MODEL.load()
 
 
 @app.route('/predict', methods=["POST"])
 def predict_image():
     req = request.get_json(force=True)
     image = _process_base64(req)
-    result = MODEL.predict(image)
+    result = TF_MODEL.predict(image)
     return {"outputs": result }
 
 def _process_base64(json_data):
