@@ -13,16 +13,20 @@ import numpy as np
 
 
 class TFModel:
+    
     def __init__(self, model_dir) -> None:
         # make sure our exported SavedModel folder exists
-        self.model_dir = model_dir
-        with open(os.path.join(model_dir, "signature.json"), "r") as f:
+        self.model_path = os.path.realpath(model_dir)
+        if not os.path.exists(self.model_path):
+            raise ValueError(f"Exported model folder doesn't exist {model_dir}")
+        # load our signature json file, this shows us the model inputs and outputs
+        # you should open this file and take a look at the inputs/outputs to see their data types, shapes, and names
+        with open(os.path.join(self.model_path, "signature.json"), "r") as f:
             self.signature = json.load(f)
-        self.model_file = "../" + self.signature.get("filename")
-        if not os.path.isfile(self.model_file):
-            raise FileNotFoundError(f"Model file does not exist")
         self.inputs = self.signature.get("inputs")
         self.outputs = self.signature.get("outputs")
+        self.labels = self.signature.get("classes").get("Label")
+
         # placeholder for the tensorflow session
         self.session = None
 
@@ -31,7 +35,7 @@ class TFModel:
         # create a new tensorflow session
         self.session = tf.compat.v1.Session(graph=tf.Graph())
         # load our model into the session
-        tf.compat.v1.saved_model.loader.load(sess=self.session, tags=self.signature.get("tags"), export_dir=self.model_dir)
+        tf.compat.v1.saved_model.loader.load(sess=self.session, tags=self.signature.get("tags"), export_dir=self.model_path)
 
     def predict(self, image: Image.Image) -> dict:
         # load the model if we don't have a session
@@ -103,21 +107,3 @@ class TFModel:
 
     def __del__(self) -> None:
         self.cleanup()
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Predict a label for an image.")
-    parser.add_argument("image", help="Path to your image file.")
-    args = parser.parse_args()
-    # Assume model is in the parent directory for this file
-    model_dir = os.path.join(os.getcwd(), "..")
-
-    if os.path.isfile(args.image):
-        image = Image.open(args.image)
-        model_dir = os.path.join(os.getcwd(), "..")
-        model = TFModel(model_dir=model_dir)
-        model.load()
-        outputs = model.predict(image)
-        print(f"Predicted: {outputs}")
-    else:
-        print(f"Couldn't find image file {args.image}")
