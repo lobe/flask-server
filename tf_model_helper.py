@@ -4,7 +4,6 @@
 """
 Skeleton code showing how to load and run the TensorFlow SavedModel export package from Lobe.
 """
-import argparse
 import os
 import json
 import tensorflow as tf
@@ -94,8 +93,7 @@ class TFModel:
                 val = val.decode()
             results[key] = val
         confs = results["Confidences"]
-        labels = self.signature.get("classes").get("Label")
-        output = [dict(zip(out_keys, group)) for group in zip(labels, confs)]
+        output = [dict(zip(out_keys, group)) for group in zip(self.labels, confs)]
         sorted_output = {"predictions": sorted(output, key=lambda k: k["confidence"], reverse=True)}
         return sorted_output
 
