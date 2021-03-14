@@ -10,6 +10,7 @@ import tensorflow as tf
 from PIL import Image
 import numpy as np
 
+EXPORT_MODEL_VERSION = 1
 
 class TFModel:
     
@@ -28,6 +29,10 @@ class TFModel:
 
         # placeholder for the tensorflow session
         self.session = None
+        # check whether Lobe model in the app is the latest
+        version = self.signature.get("export_model_version")
+        if version is None or version != EXPORT_MODEL_VERSION:
+            print(f"Model export version for this model does not match code version. Export model from updated Lobe App if issues arise.")
 
     def load(self) -> None:
         self.cleanup()
