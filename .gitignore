@@ -1,3 +1,9 @@
+# large model files
+model/saved_model.pb
+model/variables/
+model/signature.json
+model/labels.txt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
