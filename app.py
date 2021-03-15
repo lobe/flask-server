@@ -6,10 +6,10 @@ import io
 import re
 import base64
 
-from tf_model_helper import TFModel
-
 from PIL import Image
 from flask import Flask, request
+
+from tf_model_helper import TFModel
 
 app = Flask(__name__)
 
