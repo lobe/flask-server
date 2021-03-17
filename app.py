@@ -27,7 +27,7 @@ def predict_image():
     return {"outputs": result }
 
 def _process_base64(json_data):
-    image_data = json_data.get("inputs").get("Image")
+    image_data = json_data.get("image")
     image_data = re.sub(r"^data:image/.+;base64,", "", image_data)
     image_base64 = bytearray(image_data, "utf8")
     image = base64.decodebytes(image_base64)

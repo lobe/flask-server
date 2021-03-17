@@ -49,9 +49,7 @@ flask run
 1. Perform a post request to the target url/predict with your base64 image.
 ```JSON
 {
-	"inputs": {
-		"Image": "<base64 image>"
-	}
+  "image": "<base64 image>"
 }
 ```
 
