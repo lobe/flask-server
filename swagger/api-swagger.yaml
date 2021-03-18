@@ -1,0 +1,51 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: InferenceAPI
+  description: API for ML
+paths: 
+  /predict:
+    post:
+      description: This is the way to predict
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                input:
+                  type: object
+                  properties:
+                    Image:
+                      type: string
+      responses:
+        '200':
+          description: Successfully returned model prediction
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  output:
+                    type: object
+                    properties:
+                      predictions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            confidence:
+                              type: number
+                            label:
+                              type: string
+
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:   
+                  message:
+                    type: string

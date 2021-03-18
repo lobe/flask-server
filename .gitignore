@@ -1,3 +1,7 @@
+# Lobe artifacts and large model files
+model/*
+!model/tf_model_here.md
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -26,6 +30,8 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+.DS_Store
+.azure
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
