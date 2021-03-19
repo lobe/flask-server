@@ -23,8 +23,7 @@ TF_MODEL.load()
 def predict_image():
     req = request.get_json(force=True)
     image = _process_base64(req)
-    result = TF_MODEL.predict(image)
-    return {"outputs": result }
+    return TF_MODEL.predict(image)
 
 def _process_base64(json_data):
     image_data = json_data.get("image")
