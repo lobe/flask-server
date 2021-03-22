@@ -56,11 +56,11 @@ flask run
 2. Successful requests return JSON with the confidences of your predictions.
 ```JSON
 {
-	"predictions": [
-		{
-			"predicted_class": confidence
-		}
-	]
+  "predictions": [
+    {
+      "predicted_class": "confidence"
+    }
+  ]
 }
 ```
 
