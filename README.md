@@ -1,3 +1,5 @@
+<div style="text-align:center"><img src="https://github.com/lobe/web-bootstrap/blob/master/assets/header.jpg" /></div>
+
 [Lobe](http://lobe.ai/) is a free, easy to use app that has everything you need to bring your machine learning ideas to life. This Flask starter project creates a REST API to get predictions from a TensorFlow model on your projects or apps. To start using it, follow the instructions below:
 
 ## Get Started
