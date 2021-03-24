@@ -4,7 +4,7 @@
 
 ## Get Started
 
-1. Clone, fork or download the project on your computer to get started. You'll need Python 3.6 or 3.7 to run this starter project as well.
+1. Clone or download the project on your computer to get started. You'll need Python 3.6 or 3.7 to run this starter project as well.
 
 #### Windows
 
