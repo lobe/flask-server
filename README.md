@@ -76,6 +76,6 @@ The code takes in a `base64` image and returns an array of predictions and confi
 
 ## Contributing
 
-GitHub Issues are for reporting bugs, discussing features and general feedback on the iOS starter project. Be sure to check our documentation, FAQ and past issues before opening any new ones.
+GitHub Issues are for reporting bugs, discussing features and general feedback on the Flask starter project. Be sure to check our documentation, FAQ and past issues before opening any new ones.
 
 To share your project, get feedback on it, and learn more about Lobe, please visit our community on [Reddit](https://www.reddit.com/r/Lobe/). We look forward to seeing the amazing projects that can be built, when machine learning is made accessible to you.
