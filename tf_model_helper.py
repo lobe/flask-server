@@ -32,7 +32,11 @@ class TFModel:
         # check whether Lobe model in the app is the latest
         version = self.signature.get("export_model_version")
         if version is None or version != EXPORT_MODEL_VERSION:
-            print(f"Model export version for this model does not match code version. Export model from updated Lobe App if issues arise.")
+            print(
+                f"The model version you are using for this starter project may not be compatible with our supported versions. \
+                    Please update both this starter project and Lobe to the latest version, and try exporting your model again. \
+                        If the issue persists, please contact us at lobesupport@microsoft.com"
+            )
 
     def load(self) -> None:
         self.cleanup()
