@@ -48,7 +48,7 @@ flask run
 ```
 #### Deploy to Azure App Service
 
-1. Have version x.x of Azure CLI installed.  
+1. Have version 2.0.80 or higher of [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) installed.  
    `az --version`
 2. Log in by running this command and following prompts   
 `az login`
@@ -56,7 +56,7 @@ flask run
 `az webapp up --sku B1 --name <your unique app name>`
 
 Azure documentation is available if you run into issues. 
-This [ quick start](https://docs.microsoft.com/en-us/azure/app-service/quickstart-python?toc=%2Fpython%2Fazure%2FTOC.json&tabs=bash&pivots=python-framework-flask) is a good starting point.
+This [quick start](https://docs.microsoft.com/en-us/azure/app-service/quickstart-python?toc=%2Fpython%2Fazure%2FTOC.json&tabs=bash&pivots=python-framework-flask) is a good starting point.
 
 
 ### Sending a request

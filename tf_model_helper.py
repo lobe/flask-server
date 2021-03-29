@@ -36,7 +36,7 @@ class TFModel:
                 f"The model version you are using for this starter project may not be compatible with our supported versions. \
                     Please update both this starter project and Lobe to the latest version, and try exporting your model again. \
                         If the issue persists, please contact us at lobesupport@microsoft.com"
-                 )
+            )
 
     def load(self) -> None:
         self.cleanup()
