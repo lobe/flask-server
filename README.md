@@ -6,7 +6,7 @@
 
 1. Clone or download the project on your computer to get started. You'll need Python 3.6 or 3.7 to run this starter project as well.
 
-2. Move the model, weights and signature.json file exported from Lobe to the `/model` directory
+2. Move the `saved_model.pb` file, `variables` folder, and `signature.json` file exported from Lobe to the `/model` directory
 
 #### Windows
 
@@ -50,7 +50,7 @@ flask run
 
 1. Have version 2.0.80 or higher of [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) installed.  
    `az --version`
-2. Log in by running this command and following prompts   
+2. Login by running this command and following prompts   
 `az login`
 3. Deploy to the cloud!  
 `az webapp up --sku B1 --name <your unique app name>`
@@ -61,7 +61,7 @@ This [quick start](https://docs.microsoft.com/en-us/azure/app-service/quickstart
 
 ### Sending a request
 
-1. Perform a post request to the target url/predict with your base64 image. Refer to `testing.py` for getting started sending requsts to the server.
+1. Perform a post request to the target url/predict with your base64 image. Refer to `testing.py` for getting started sending requests to the server.
 ```JSON
 {
   "image": "<base64 image>"
@@ -73,10 +73,10 @@ This [quick start](https://docs.microsoft.com/en-us/azure/app-service/quickstart
 {
   "predictions": [
     {
-      "predicted_label": 1.0
+      "predicted_label": 0.9105
     },
     {
-      "another_label": 0.0
+      "another_label": 0.0895
     }
   ]
 }
