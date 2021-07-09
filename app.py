@@ -16,7 +16,6 @@ app = Flask(__name__)
 # Path to signature.json and model file
 ASSETS_PATH = os.path.join(".", "./model")
 TF_MODEL = TFModel(ASSETS_PATH)
-TF_MODEL.load()
 
 
 @app.route('/predict', methods=["POST"])

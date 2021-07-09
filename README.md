@@ -90,6 +90,8 @@ The Flask starter project is optimized for models exported from Lobe but could b
 
 Lobe has an endpoint built in called Lobe Connect that can be used while running the app and this starter project works the same way. If your app works with Lobe Connect, it will work with this starter project just by updating the URL.
 
+We are using TensorFlow 2.5.0 to run the tf_example.py file. If you see any GPU errors or want to run the script on GPU please refer to https://www.tensorflow.org/install/gpu
+
 The code takes in a `base64` image and returns an array of predictions and confidences. The server code that defines endpoints is in `app.py`. And the code for using your model including image pre-processing and output formatting for a prediction is in `tf_model_helper.py`. For reference, the Swagger definition file lives in `swagger/`.
 
 ## Contributing

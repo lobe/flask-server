@@ -6,9 +6,17 @@ Skeleton code showing how to load and run the TensorFlow SavedModel export packa
 """
 import os
 import json
-import tensorflow as tf
-from PIL import Image
 import numpy as np
+from threading import Lock
+
+# printing only warnings and error messages
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "1"
+
+try:
+    import tensorflow as tf
+    from PIL import Image
+except ImportError:
+    raise ImportError("ERROR: Failed to import libraries. Please refer to READEME.md file\n")
 
 EXPORT_MODEL_VERSION = 1
 
@@ -27,8 +35,12 @@ class TFModel:
         self.outputs = self.signature.get("outputs")
         self.labels = self.signature.get("classes").get("Label")
 
-        # placeholder for the tensorflow session
-        self.session = None
+        self.lock = Lock()
+
+        # loading the saved model
+        self.model = tf.saved_model.load(tags=self.signature.get("tags"), export_dir=self.model_dir)
+        self.predict_fn = self.model.signatures["serving_default"]
+
         # check whether Lobe model in the app is the latest
         version = self.signature.get("export_model_version")
         if version is None or version != EXPORT_MODEL_VERSION:
@@ -38,31 +50,19 @@ class TFModel:
                         If the issue persists, please contact us at lobesupport@microsoft.com"
             )
 
-    def load(self) -> None:
-        self.cleanup()
-        # create a new tensorflow session
-        self.session = tf.compat.v1.Session(graph=tf.Graph())
-        # load our model into the session
-        tf.compat.v1.saved_model.loader.load(sess=self.session, tags=self.signature.get("tags"), export_dir=self.model_path)
-
     def predict(self, image: Image.Image) -> dict:
-        # load the model if we don't have a session
-        if self.session is None:
-            self.load()
-
+        # pre-processing the image before passing to model
         image = self.process_image(image, self.inputs.get("Image").get("shape"))
-        # create the feed dictionary that is the input to the model
-        # first, add our image to the dictionary (comes from our signature.json file)
-        feed_dict = {self.inputs["Image"]["name"]: [image]}
 
-        # list the outputs we want from the model -- these come from our signature.json file
-        # since we are using dictionaries that could have different orders, make tuples of (key, name) to keep track for putting
-        # the results back together in a dictionary
-        fetches = [(key, output["name"]) for key, output in self.outputs.items()]
-
-        # run the model! there will be as many outputs from session.run as you have in the fetches list
-        outputs = self.session.run(fetches=[name for _, name in fetches], feed_dict=feed_dict)
-        return self.process_output(fetches, outputs)
+        with self.lock:
+            # create the feed dictionary that is the input to the model
+            feed_dict = {}
+            # first, add our image to the dictionary (comes from our signature.json file)
+            feed_dict[list(self.inputs.keys())[0]] = tf.convert_to_tensor(image)
+            # run the model!
+            outputs = self.predict_fn(**feed_dict)
+            # return the processed output
+            return self.process_output(outputs)
 
     def process_image(self, image, input_shape) -> np.ndarray:
         """
@@ -89,15 +89,15 @@ class TFModel:
         # make 0-1 float instead of 0-255 int (that PIL Image loads by default)
         image = np.asarray(image) / 255.0
         # format input as model expects
-        return image.astype(np.float32)
+        return np.expand_dims(image, axis=0).astype(np.float32)
 
     def process_output(self, fetches, outputs) -> dict:
         # do a bit of postprocessing
         out_keys = ["label", "confidence"]
         results = {}
         # since we actually ran on a batch of size 1, index out the items from the returned numpy arrays
-        for i, (key, _) in enumerate(fetches):
-            val = outputs[i].tolist()[0]
+        for key, tf_val in outputs.items():
+            val = tf_val.numpy().tolist()[0]
             if isinstance(val, bytes):
                 val = val.decode()
             results[key] = val
@@ -106,11 +106,3 @@ class TFModel:
         sorted_output = {"predictions": sorted(output, key=lambda k: k["confidence"], reverse=True)}
         return sorted_output
 
-    def cleanup(self) -> None:
-        # close our tensorflow session if one exists
-        if self.session is not None:
-            self.session.close()
-            self.session = None
-
-    def __del__(self) -> None:
-        self.cleanup()
