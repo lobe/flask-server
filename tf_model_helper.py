@@ -25,8 +25,9 @@ class TFModel:
     def __init__(self, model_dir) -> None:
         # make sure our exported SavedModel folder exists
         self.model_path = os.path.realpath(model_dir)
+        
         if not os.path.exists(self.model_path):
-            raise ValueError(f"Exported model folder doesn't exist {model_dir}")
+            raise ValueError(f"Exported model folder doesn't exist {self.model_path}")
         # load our signature json file, this shows us the model inputs and outputs
         # you should open this file and take a look at the inputs/outputs to see their data types, shapes, and names
         with open(os.path.join(self.model_path, "signature.json"), "r") as f:
@@ -38,7 +39,7 @@ class TFModel:
         self.lock = Lock()
 
         # loading the saved model
-        self.model = tf.saved_model.load(tags=self.signature.get("tags"), export_dir=self.model_dir)
+        self.model = tf.saved_model.load(tags=self.signature.get("tags"), export_dir=self.model_path)
         self.predict_fn = self.model.signatures["serving_default"]
 
         # check whether Lobe model in the app is the latest
@@ -91,7 +92,7 @@ class TFModel:
         # format input as model expects
         return np.expand_dims(image, axis=0).astype(np.float32)
 
-    def process_output(self, fetches, outputs) -> dict:
+    def process_output(self, outputs) -> dict:
         # do a bit of postprocessing
         out_keys = ["label", "confidence"]
         results = {}
